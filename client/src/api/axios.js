@@ -1,19 +1,18 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const api = axios.create({
-  baseURL: "https://hk-music.onrender.com/api",
+  baseURL: API_URL,
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const userInfo = localStorage.getItem("hkmusic_user");
+  if (userInfo) {
+    const token = JSON.parse(userInfo).token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
-
-export const SERVER_URL = "https://hk-music.onrender.com";
 
 export default api;

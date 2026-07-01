@@ -1,113 +1,112 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
-import Navbar from './components/Navbar';
-import PlayerBar from './components/PlayerBar';
-import ProtectedRoute from './components/ProtectedRoute';
-import AdminRoute from './components/AdminRoute';
-import Loader from './components/Loader';
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
-import Setup from './pages/Setup';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Library from './pages/Library';
-import PlaylistDetail from './pages/PlaylistDetail';
-import Dashboard from './pages/Dashboard';
-import AdminPanel from './pages/AdminPanel';
+import Home from "./pages/Home";
+import Search from "./pages/Search";
+import Albums from "./pages/Albums";
+import Artists from "./pages/Artists";
+import Playlists from "./pages/Playlists";
+import PlaylistDetail from "./pages/PlaylistDetail";
+import Favorites from "./pages/Favorites";
+import RecentlyPlayed from "./pages/RecentlyPlayed";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UploadSong from "./pages/admin/UploadSong";
+import ManageSongs from "./pages/admin/ManageSongs";
+import ViewUsers from "./pages/admin/ViewUsers";
 
 function App() {
-  const { user, loading, setupRequired } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader label="Starting Resonance..." />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-1 pb-28">
-        <Routes>
-          <Route
-            path="/setup"
-            element={setupRequired ? <Setup /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/login"
-            element={
-              setupRequired ? (
-                <Navigate to="/setup" replace />
-              ) : user ? (
-                <Navigate to="/library" replace />
-              ) : (
-                <Login />
-              )
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              setupRequired ? (
-                <Navigate to="/setup" replace />
-              ) : user ? (
-                <Navigate to="/library" replace />
-              ) : (
-                <Register />
-              )
-            }
-          />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-          <Route
-            path="/library"
-            element={
-              <ProtectedRoute>
-                <Library />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/playlists/:id"
-            element={
-              <ProtectedRoute>
-                <PlaylistDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <AdminPanel />
-              </AdminRoute>
-            }
-          />
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="search" element={<Search />} />
+        <Route path="albums" element={<Albums />} />
+        <Route path="artists" element={<Artists />} />
 
-          <Route
-            path="/"
-            element={
-              <Navigate to={setupRequired ? '/setup' : user ? '/library' : '/login'} replace />
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <Navigate to={setupRequired ? '/setup' : user ? '/library' : '/login'} replace />
-            }
-          />
-        </Routes>
-      </main>
-      <PlayerBar />
-    </div>
+        <Route
+          path="playlists"
+          element={
+            <ProtectedRoute>
+              <Playlists />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="playlists/:id"
+          element={
+            <ProtectedRoute>
+              <PlaylistDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="favorites"
+          element={
+            <ProtectedRoute>
+              <Favorites />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="recently-played"
+          element={
+            <ProtectedRoute>
+              <RecentlyPlayed />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/upload"
+          element={
+            <AdminRoute>
+              <UploadSong />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/songs"
+          element={
+            <AdminRoute>
+              <ManageSongs />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/users"
+          element={
+            <AdminRoute>
+              <ViewUsers />
+            </AdminRoute>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

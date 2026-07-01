@@ -1,6 +1,2 @@
-node_modules/
+node_modules
 .env
-uploads/songs/*
-uploads/covers/*
-!uploads/songs/.gitkeep
-!uploads/covers/.gitkeep

@@ -2,108 +2,108 @@ const Playlist = require("../models/Playlist");
 
 const getPlaylists = async (req, res) => {
   try {
-    const filter = req.user.role === "admin" ? {} : { owner: req.user._id };
-    const playlists = await Playlist.find(filter)
-      .populate("songs")
-      .populate("owner", "name");
+    const playlists = await Playlist.find({ user: req.user._id }).populate("songs");
     res.json(playlists);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getPlaylistById = async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    }).populate("songs");
+
+    if (!playlist) return res.status(404).json({ message: "Playlist not found" });
+    res.json(playlist);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const createPlaylist = async (req, res) => {
   try {
     const { name } = req.body;
-    if (!name) return res.status(400).json({ message: "Name required" });
-    const playlist = await Playlist.create({ name, owner: req.user._id });
+    if (!name) return res.status(400).json({ message: "Playlist name is required" });
+
+    const playlist = await Playlist.create({
+      name,
+      user: req.user._id,
+      songs: [],
+    });
+
     res.status(201).json(playlist);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-const updatePlaylist = async (req, res) => {
+const renamePlaylist = async (req, res) => {
   try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist) return res.status(404).json({ message: "Not found" });
-    if (
-      req.user.role !== "admin" &&
-      playlist.owner.toString() !== req.user._id.toString()
-    ) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
-    if (req.body.name) playlist.name = req.body.name;
+    const playlist = await Playlist.findOne({ _id: req.params.id, user: req.user._id });
+    if (!playlist) return res.status(404).json({ message: "Playlist not found" });
+
+    playlist.name = req.body.name || playlist.name;
     await playlist.save();
     res.json(playlist);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const deletePlaylist = async (req, res) => {
   try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist) return res.status(404).json({ message: "Not found" });
-    if (
-      req.user.role !== "admin" &&
-      playlist.owner.toString() !== req.user._id.toString()
-    ) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
-    await playlist.deleteOne();
-    res.json({ message: "Deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const playlist = await Playlist.findOneAndDelete({ _id: req.params.id, user: req.user._id });
+    if (!playlist) return res.status(404).json({ message: "Playlist not found" });
+    res.json({ message: "Playlist deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-const addToPlaylist = async (req, res) => {
+const addSongToPlaylist = async (req, res) => {
   try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist) return res.status(404).json({ message: "Not found" });
-    if (
-      req.user.role !== "admin" &&
-      playlist.owner.toString() !== req.user._id.toString()
-    ) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+    const playlist = await Playlist.findOne({ _id: req.params.id, user: req.user._id });
+    if (!playlist) return res.status(404).json({ message: "Playlist not found" });
+
     const { songId } = req.body;
-    if (!playlist.songs.includes(songId)) playlist.songs.push(songId);
-    await playlist.save();
-    await playlist.populate("songs");
-    res.json(playlist);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (!playlist.songs.includes(songId)) {
+      playlist.songs.push(songId);
+      await playlist.save();
+    }
+
+    const updated = await Playlist.findById(playlist._id).populate("songs");
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-const removeFromPlaylist = async (req, res) => {
+const removeSongFromPlaylist = async (req, res) => {
   try {
-    const playlist = await Playlist.findById(req.params.id);
-    if (!playlist) return res.status(404).json({ message: "Not found" });
-    if (
-      req.user.role !== "admin" &&
-      playlist.owner.toString() !== req.user._id.toString()
-    ) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+    const playlist = await Playlist.findOne({ _id: req.params.id, user: req.user._id });
+    if (!playlist) return res.status(404).json({ message: "Playlist not found" });
+
     playlist.songs = playlist.songs.filter(
-      (s) => s.toString() !== req.params.songId,
+      (songId) => songId.toString() !== req.params.songId
     );
     await playlist.save();
-    await playlist.populate("songs");
-    res.json(playlist);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    const updated = await Playlist.findById(playlist._id).populate("songs");
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
   getPlaylists,
+  getPlaylistById,
   createPlaylist,
-  updatePlaylist,
+  renamePlaylist,
   deletePlaylist,
-  addToPlaylist,
-  removeFromPlaylist,
+  addSongToPlaylist,
+  removeSongFromPlaylist,
 };

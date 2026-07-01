@@ -1,79 +1,52 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import api from '../api/axios';
+import { createContext, useContext, useState, useEffect } from "react";
+import api from "../api/axios";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [setupRequired, setSetupRequired] = useState(false);
-
-  const checkSetup = useCallback(async () => {
-    try {
-      const res = await api.get('/auth/setup-status');
-      setSetupRequired(res.data.setupRequired);
-      return res.data.setupRequired;
-    } catch {
-      setSetupRequired(false);
-      return false;
-    }
-  }, []);
-
-  const loadUser = useCallback(async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    try {
-      const res = await api.get('/auth/me');
-      setUser(res.data.user);
-    } catch {
-      localStorage.removeItem('token');
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
-    (async () => {
-      await checkSetup();
-      await loadUser();
-    })();
-  }, [checkSetup, loadUser]);
+    const stored = localStorage.getItem("hkmusic_user");
+    if (stored) {
+      setUser(JSON.parse(stored));
+    }
+    setLoading(false);
+  }, []);
 
-  const setup = async (name, email, password) => {
-    const res = await api.post('/auth/setup', { name, email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-    setSetupRequired(false);
+  const register = async (name, email, password) => {
+    const { data } = await api.post("/auth/register", { name, email, password });
+    localStorage.setItem("hkmusic_user", JSON.stringify(data));
+    setUser(data);
+    return data;
   };
 
   const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-  };
-
-  const register = async (name, email, password) => {
-    const res = await api.post('/auth/register', { name, email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
+    const { data } = await api.post("/auth/login", { email, password });
+    localStorage.setItem("hkmusic_user", JSON.stringify(data));
+    setUser(data);
+    return data;
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("hkmusic_user");
     setUser(null);
+  };
+
+  const updateUser = (updatedFields) => {
+    const newUser = { ...user, ...updatedFields };
+    localStorage.setItem("hkmusic_user", JSON.stringify(newUser));
+    setUser(newUser);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, setupRequired, setup, login, register, logout }}
+      value={{ user, loading, register, login, logout, updateUser, isAdmin: user?.role === "admin" }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
