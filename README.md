@@ -1,96 +1,220 @@
-# Resonance — MERN Music Player
+# 🎵 HK Music
 
-A small, complete MERN-stack music player with JWT auth, role-based access
-(Admin / User), playlists, and a glassmorphism red+blue dark UI.
+A modern full-stack Music Streaming Web Application built with the MERN Stack.
+HK Music allows users to discover songs, create playlists, save favorites, and enjoy a smooth music streaming experience. An integrated Admin Panel makes it easy to manage the entire music library.
 
-The database starts **completely empty**. No seeding. The first time you run
-the app, you'll be asked to create the first Admin account directly from the
-UI (First Time Setup page). After that, the setup page disables itself
-forever.
+---
 
-## Tech Stack
-- MongoDB + Mongoose
-- Express.js + JWT + Multer
-- React (Vite) + Tailwind CSS
-- Axios + Context API (no Redux/React Query)
+# 📸 Preview
 
-## Project Structure
+## 🏠 Home
+
+![Home](images/home.png)
+
+## 🎧 Music Player
+
+![Player](images/player.png)
+
+## ❤️ Favorites
+
+![Favorites](images/favorites.png)
+
+## 📂 Playlists
+
+![Playlists](images/playlists.png)
+
+## 👤 Profile
+
+![Profile](images/profile.png)
+
+## 🛠️ Admin Dashboard
+
+![Admin](images/admin-dashboard.png)
+
+---
+
+# ✨ Features
+
+### 👥 User Features
+
+* 🔐 Secure Login & Registration
+* 🎵 Stream music instantly
+* ❤️ Add songs to Favorites
+* 📂 Create multiple playlists
+* ➕ Add or remove songs from playlists
+* 🔎 Search songs quickly
+* 👤 User Profile
+* 📱 Fully Responsive Design
+* ⚡ Fast and smooth user experience
+
+---
+
+### 🛠️ Admin Features
+
+* Admin Login
+* Upload Songs
+* Upload Cover Images
+* Edit Song Details
+* Delete Songs
+* Manage Music Library
+* Dashboard Overview
+
+---
+
+# 🚀 How It Works
+
+1. Register or Login.
+2. Browse the music library.
+3. Search your favorite songs.
+4. Play music instantly.
+5. Add songs to Favorites.
+6. Create your own playlists.
+7. Manage your playlists anytime.
+8. Admin can upload and manage songs from the dashboard.
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+* React.js
+* React Router
+* Axios
+* Tailwind CSS
+* Context API
+
+## Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT Authentication
+* Multer (File Upload)
+
+---
+
+# 📂 Project Structure
+
 ```
-mern-music-player/
-  server/   -> Express API, MongoDB models, JWT auth, file uploads
-  client/   -> React (Vite) frontend, Tailwind UI
+HK-Music
+│
+├── frontend
+│   ├── components
+│   ├── pages
+│   ├── context
+│   ├── assets
+│   └── services
+│
+├── backend
+│   ├── controllers
+│   ├── models
+│   ├── routes
+│   ├── middleware
+│   ├── uploads
+│   └── config
+│
+└── README.md
 ```
 
-## Prerequisites
-- Node.js 18+
-- MongoDB running locally (or a MongoDB Atlas connection string)
+---
 
-## 1. Backend Setup
+# 📦 Installation
+
+## Clone Repository
 
 ```bash
-cd server
-npm install
+git clone https://github.com/your-username/hk-music.git
 ```
 
-Check `server/.env` (already included with sensible defaults):
+## Backend
+
+```bash
+cd backend
+npm install
+npm run dev
 ```
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+# ⚙️ Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```env
 PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/music_player
-JWT_SECRET=super_secret_jwt_key_change_this_in_production
+
+MONGO_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_secret_key
+
 CLIENT_URL=http://localhost:5173
 ```
-Update `MONGO_URI` if you're using MongoDB Atlas or a different host. Change
-`JWT_SECRET` to your own random string before deploying.
 
-Start the backend:
-```bash
-npm run dev
-```
-The API runs on `http://localhost:5000`.
+---
 
-## 2. Frontend Setup
+# 📸 Screens Included
 
-```bash
-cd client
-npm install
-npm run dev
-```
-The app runs on `http://localhost:5173`.
+* Home
+* Login
+* Register
+* Music Player
+* Search
+* Favorites
+* Playlists
+* Profile
+* Admin Dashboard
+* Upload Song
+* Song Details
 
-## 3. First Run
+---
 
-1. Open `http://localhost:5173`.
-2. Since the database is empty, you'll land on the **First Time Setup**
-   page automatically.
-3. Create the first Admin account (name, email, password).
-4. You're now logged in as Admin. Go to **Admin Panel** to upload your first
-   songs (MP3 + optional cover image).
-5. Any other visitor can **Register** as a normal User to browse, search,
-   play songs, and build personal playlists.
+# 🌟 Future Improvements
 
-There is no seed script and no predefined data — everything is created from
-the UI, by design.
+* 🎶 Recently Played
+* 🎧 Listening History
+* 🌙 Dark / Light Theme
+* 📈 Trending Songs
+* 🔥 Top Artists
+* 🎼 Album Support
+* 🔊 Volume & Queue Controls
+* 📱 Progressive Web App (PWA)
 
-## Roles
+---
 
-**Admin**
-- Upload / edit / delete songs
-- Manage all songs in the library
-- View Admin Dashboard (total songs, users, playlists)
-- Create / rename / delete playlists (including any user's, for moderation)
+# 🤝 Contributing
 
-**User**
-- Browse, search, and filter the library
-- Play / pause / stop / next / previous / seek / volume / shuffle / repeat
-- Create personal playlists, add/remove songs
-- Rename / delete only their own playlists
-- View their own Dashboard (their playlists + recently played)
+Contributions are always welcome.
 
-Admin-only UI (Upload, Add/Edit/Delete buttons, Admin Panel link) is
-completely hidden from normal users — not just disabled.
+1. Fork the repository.
+2. Create a new branch.
+3. Commit your changes.
+4. Push your branch.
+5. Open a Pull Request.
 
-## Notes
-- Uploaded audio/cover files are stored on disk under `server/uploads/` and
-  served statically at `/uploads/...`.
-- JWT tokens are stored in `localStorage` on the client and attached via an
-  Axios interceptor.
+---
+
+# 📄 License
+
+This project is created for learning and personal use.
+
+---
+
+# 👨‍💻 Developer
+
+**Harsh Singhal**
+
+Built with ❤️ using the MERN Stack.
+
+---
+
+## ⭐ If you like this project, don't forget to Star the repository!
