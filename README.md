@@ -1,134 +1,96 @@
 # 🎵 HK Music
 
-A modern full-stack Music Streaming Web Application built with the MERN Stack.
-HK Music allows users to discover songs, create playlists, save favorites, and enjoy a smooth music streaming experience. An integrated Admin Panel makes it easy to manage the entire music library.
+> **A Modern MERN Stack Music Streaming Web Application**
+
+Listen to your favorite songs, create playlists, save favorites, and manage your music with a powerful Admin Panel.
 
 ---
 
-# 📸 Preview
+## 🎧 Features
 
-## 🏠 Home
-
-![Home](images/home.png)
-
-## 🎧 Music Player
-
-![Player](images/player.png)
-
-## ❤️ Favorites
-
-![Favorites](images/favorites.png)
-
-## 📂 Playlists
-
-![Playlists](images/playlists.png)
-
-## 👤 Profile
-
-![Profile](images/profile.png)
-
-## 🛠️ Admin Dashboard
-
-![Admin](images/admin-dashboard.png)
-
----
-
-# ✨ Features
-
-### 👥 User Features
+### 👤 User Features
 
 * 🔐 Secure Login & Registration
-* 🎵 Stream music instantly
-* ❤️ Add songs to Favorites
-* 📂 Create multiple playlists
-* ➕ Add or remove songs from playlists
-* 🔎 Search songs quickly
+* 🎵 Stream Music Online
+* ❤️ Add Songs to Favorites
+* 📂 Create & Manage Playlists
+* 🔍 Search Songs Instantly
 * 👤 User Profile
-* 📱 Fully Responsive Design
-* ⚡ Fast and smooth user experience
-
----
+* 📱 Responsive Design
+* ⚡ Fast & Smooth Experience
 
 ### 🛠️ Admin Features
 
-* Admin Login
-* Upload Songs
-* Upload Cover Images
-* Edit Song Details
-* Delete Songs
-* Manage Music Library
-* Dashboard Overview
+* 👨‍💼 Admin Dashboard
+* 🎼 Upload Songs
+* 🖼️ Upload Cover Images
+* ✏️ Edit Song Details
+* 🗑️ Delete Songs
+* 📚 Manage Music Library
 
 ---
 
-# 🚀 How It Works
+## 🚀 How It Works
 
-1. Register or Login.
-2. Browse the music library.
-3. Search your favorite songs.
-4. Play music instantly.
-5. Add songs to Favorites.
-6. Create your own playlists.
-7. Manage your playlists anytime.
-8. Admin can upload and manage songs from the dashboard.
+1️⃣ Create an account or log in.
 
----
+2️⃣ Browse the music library.
 
-# 🛠️ Tech Stack
+3️⃣ Play your favorite songs instantly.
 
-## Frontend
+4️⃣ Add songs to ❤️ Favorites.
 
-* React.js
-* React Router
-* Axios
-* Tailwind CSS
-* Context API
+5️⃣ Create your own 📂 Playlists.
 
-## Backend
+6️⃣ Manage your profile.
 
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT Authentication
-* Multer (File Upload)
+7️⃣ Admin can upload and manage songs from the dashboard.
 
 ---
 
-# 📂 Project Structure
+## 🛠️ Tech Stack
 
-```
+### 💻 Frontend
+
+* ⚛️ React.js
+* 🛣️ React Router
+* 🌐 Axios
+* 🎨 Tailwind CSS
+
+### ⚙️ Backend
+
+* 🟢 Node.js
+* 🚂 Express.js
+* 🍃 MongoDB
+* 🧩 Mongoose
+* 🔐 JWT Authentication
+* 📤 Multer
+
+---
+
+## 📂 Project Structure
+
+```text
 HK-Music
 │
 ├── frontend
-│   ├── components
-│   ├── pages
-│   ├── context
-│   ├── assets
-│   └── services
-│
 ├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   ├── middleware
-│   ├── uploads
-│   └── config
-│
+├── uploads
+├── package.json
 └── README.md
 ```
 
 ---
 
-# 📦 Installation
+## 📦 Installation
 
-## Clone Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/your-username/hk-music.git
 ```
 
-## Backend
+### Backend
 
 ```bash
 cd backend
@@ -136,7 +98,7 @@ npm install
 npm run dev
 ```
 
-## Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -146,9 +108,7 @@ npm run dev
 
 ---
 
-# ⚙️ Environment Variables
-
-Create a `.env` file inside the backend folder.
+## ⚙️ Environment Variables
 
 ```env
 PORT=5000
@@ -162,59 +122,36 @@ CLIENT_URL=http://localhost:5173
 
 ---
 
-# 📸 Screens Included
-
-* Home
-* Login
-* Register
-* Music Player
-* Search
-* Favorites
-* Playlists
-* Profile
-* Admin Dashboard
-* Upload Song
-* Song Details
-
----
-
-# 🌟 Future Improvements
+## 🌟 Upcoming Features
 
 * 🎶 Recently Played
-* 🎧 Listening History
-* 🌙 Dark / Light Theme
-* 📈 Trending Songs
-* 🔥 Top Artists
-* 🎼 Album Support
-* 🔊 Volume & Queue Controls
-* 📱 Progressive Web App (PWA)
+* 📜 Listening History
+* 🌙 Dark Mode
+* 🔥 Trending Songs
+* 🎼 Albums
+* 🎤 Artists
+* 🔊 Queue & Volume Control
 
 ---
 
-# 🤝 Contributing
+## ❤️ Made With
 
-Contributions are always welcome.
-
-1. Fork the repository.
-2. Create a new branch.
-3. Commit your changes.
-4. Push your branch.
-5. Open a Pull Request.
+* ⚛️ React
+* 🟢 Node.js
+* 🚂 Express
+* 🍃 MongoDB
+* 💙 MERN Stack
 
 ---
 
-# 📄 License
-
-This project is created for learning and personal use.
-
----
-
-# 👨‍💻 Developer
+## 👨‍💻 Developer
 
 **Harsh Singhal**
 
-Built with ❤️ using the MERN Stack.
+Made with ❤️ using the MERN Stack.
 
 ---
 
-## ⭐ If you like this project, don't forget to Star the repository!
+## ⭐ Support
+
+If you like this project, don't forget to **⭐ Star** the repository.
